@@ -1,28 +1,42 @@
-name: Image Sync Action
+name: Container Image Toolkit Action
 description: Sync images from source registry to target registry.
 branding:
   icon: refresh-cw
   color: blue
 inputs:
-  target-registry-url:
-    description: "URL of the target image registry"
+  version:
+    description: "Version of the container-image-toolkit"
     required: true
-    default: "registry.cn-hangzhou.aliyuncs.com"
-  target-registry-namespace:
-    description: "Namespace of the target image registry"
-    required: true
-    default: "code-crafters-lab"
-  docker-username:
-    description: "Username for docker registry authentication"
-    required: true
-  docker-password:
-    description: "Password for docker registry authentication"
-    required: true
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
+    default: "latest"
   args:
-    - ${{ inputs.target-registry-url }}
-    - ${{ inputs.target-registry-namespace }}
-    - ${{ inputs.docker-username }}
-    - ${{ inputs.docker-password }}
+    description: 'Arguments to pass to container-image-toolkit'
+    required: false
+  workdir:
+    description: 'Working directory (below repository root)'
+    default: '.'
+    required: false
+  install-only:
+    description: 'Just install container-image-toolkit'
+    default: 'false'
+    required: false
+outputs:
+  version:
+    description: "Version of the container-image-toolkit"
+
+runs:
+  using: 'composite'
+  steps:
+    - name: test
+      run: |
+        echo "test"
+        echo "${{ inputs.vesion }}"
+        echo "${{ inputs.args }}
+        echo "${{ inputs.workdir }}
+        echo "${{ inputs.install-only }}
+
+#  image: 'Dockerfile'
+#  args:
+#    - ${{ inputs.target-registry-url }}
+#    - ${{ inputs.target-registry-namespace }}
+#    - ${{ inputs.docker-username }}
+#    - ${{ inputs.docker-password }}

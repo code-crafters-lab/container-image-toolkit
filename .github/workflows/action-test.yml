@@ -1,0 +1,38 @@
+name: action-test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'images.txt'
+
+env:
+  ALIYUN_REGISTRY: "${{ secrets.ALIYUN_REGISTRY_URL }}"
+  ALIYUN_NAMESPACE: "${{ secrets.ALIYUN_REGISTRY_NAMESPACE }}"
+  ALIYUN_REGISTRY_USER: "${{ secrets.ALIYUN_REGISTRY_USER }}"
+  ALIYUN_REGISTRY_PASSWORD: "${{ secrets.ALIYUN_REGISTRY_PASSWORD }}"
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Docker Setup Build
+        uses: docker/setup-buildx-action@v3
+
+      - name: Image Sync Test
+        uses: ./action
+        with:
+          args:
+            - -i images.txt
+            - -s ${{ env.ALIYUN_REGISTRY }}
+            - -n ${{ env.ALIYUN_NAMESPACE }}
+            - -u ${{ env.ALIYUN_REGISTRY_USER }}
+            - -p ${{ env.ALIYUN_REGISTRY_PASSWORD }}
+            - -f image.txt

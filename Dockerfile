@@ -1,9 +1,8 @@
 FROM golang:1.22.10
 
-WORKDIR /app
+ADD . ./
 
-COPY main.go .
+RUN go build -o cit
 
-RUN go build -o image-sync-action
-
-CMD ["./image-sync-action"]
+#CMD ["./image-sync-toolkit"]
+ENTRYPOINT ["sh", "-c", "./cit"]

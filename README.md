@@ -1,6 +1,10 @@
-# Image Sync Action
-Image Sync Action 是一款专为解决容器镜像跨不同镜像仓库同步问题而设计的自动化工具。在当今多云环境和复杂的开发部署流程下，常常需要将镜像从一个源仓库（如企业内部的私有仓库）快速、准确地复制到目标仓库（如云端的公共仓库或其他团队的协作仓库），以满足诸如部署、共享、备份等多样化需求，本工具应运而生。
-## Usage
+# Container Image Toolkit (CIT)
+Container Image Toolkit 是一款专为解决容器镜像跨不同镜像仓库同步问题而设计的自动化工具。
+在当今多云环境和复杂的开发部署流程下，常常需要将镜像从一个源仓库（如企业内部的私有仓库）快速、
+准确地复制到目标仓库（如云端的公共仓库或其他团队的协作仓库），以满足诸如部署、共享、备份等多
+样化需求，本工具应运而生。
+
+## GitHub Action Usage
 
 ```yaml
 name: ci
@@ -14,9 +18,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          
+      - name: Docker Setup Build
+        uses: docker/setup-buildx-action@v3
         
       - name: Set up Image Sync
-        uses: docker/setup-buildx-action@main
+        uses: code-crafters-lab/container-image-toolkit@main
 ```
 
 ## Customizing
@@ -59,9 +68,13 @@ The following [official docker environment variables](https://docs.docker.com/en
 |-----------------|--------|-------------|-------------------------------------------------|
 | `DOCKER_CONFIG` | String | `~/.docker` | The location of your client configuration files |
 
-## Notes
+## Command-line Usage
 
-### `nodes` output
+```shell
+    cit --help
+```
+
+## Notes
 
 ## Contributing
 

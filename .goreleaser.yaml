@@ -1,0 +1,62 @@
+# This is an example .goreleaser.yml file with some sensible defaults.
+# Make sure to check the documentation at https://goreleaser.com
+project_name: cit
+version: 2
+before:
+  hooks:
+    # You may remove this if you don't use go modules.
+    - go mod tidy
+    # you may remove this if you don't need go generate
+    - go generate ./...
+
+builds:
+  - binary: image
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w -X main.version={{.Tag}} -X main.buildTime={{.Date}} -X main.commit={{.ShortCommit}}
+
+archives:
+  - format: tar.gz
+    # this name template makes the OS and Arch compatible with the results of `uname`.
+    #    name_template: >-
+    #      {{ .ProjectName }}_
+    #      {{- .Version }}_
+    #      {{- .Os }}_{{ .Arch }}
+    #      {{- if eq .Arch "amd64" }}x86_64
+    #      {{- else if eq .Arch "386" }}i386
+    #      {{- else }}{{ .Arch }}{{ end }}
+    #      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    #    wrap_in_directory: false
+    #    strip_binary_directory: false
+
+    # use zip for windows archives
+    format_overrides:
+      - goos: windows
+        format: zip
+checksum:
+  name_template: checksums.txt
+snapshot:
+  version_template: "{{ incminor .Version }}-next"
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+release:
+  footer: >-
+
+    ---
+
+    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
