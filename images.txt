@@ -19,5 +19,5 @@
 # mongo-express:1.0.2-20-alpine3.19
 
 # minikube dashboard images
-docker.io/kubernetesui/metrics-scraper:v1.0.8@sha256:76049887f07a0476dc93efc2d3569b9529bf982b22d29f356092ce206e98765c
-docker.io/kubernetesui/dashboard:v2.7.0@sha256:2e500d29e9d5f4a086b908eb8dfe7ecac57d2ab09d65b24f588b1d449841ef93
+docker.io/kubernetesui/metrics-scraper:v1.0.8
+docker.io/kubernetesui/dashboard:v2.7.0

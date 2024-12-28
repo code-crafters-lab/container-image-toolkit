@@ -29,10 +29,4 @@ jobs:
       - name: Image Sync Test
         uses: ./action
         with:
-          args:
-            - -i images.txt
-            - -s ${{ env.ALIYUN_REGISTRY }}
-            - -n ${{ env.ALIYUN_NAMESPACE }}
-            - -u ${{ env.ALIYUN_REGISTRY_USER }}
-            - -p ${{ env.ALIYUN_REGISTRY_PASSWORD }}
-            - -f image.txt
+          args: -i images.txt -s ${{ env.ALIYUN_REGISTRY }} -n ${{ env.ALIYUN_NAMESPACE }} -u ${{ env.ALIYUN_REGISTRY_USER }} -p ${{ env.ALIYUN_REGISTRY_PASSWORD }} -f image.txt
